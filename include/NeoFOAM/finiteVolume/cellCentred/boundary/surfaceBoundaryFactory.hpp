@@ -28,6 +28,8 @@ public:
     )
         : BoundaryPatchMixin(mesh, patchID) {};
 
+    SurfaceBoundaryFactory() = default;
+
     virtual void correctBoundaryCondition(DomainField<ValueType>& domainField) = 0;
 
     virtual std::unique_ptr<SurfaceBoundaryFactory> clone() const = 0;
