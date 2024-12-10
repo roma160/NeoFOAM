@@ -56,6 +56,7 @@ option(NEOFOAM_ENABLE_WARNINGS "Treat compiler warnings as errors" OFF)
 mark_as_advanced(NEOFOAM_ENABLE_WARNINGS)
 option(NEOFOAM_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
 mark_as_advanced(NEOFOAM_WARNINGS_AS_ERRORS)
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
 if(NOT DEFINED CPM_USE_LOCAL_PACKAGES)
   message(STATUS "Set CPM_USE_LOCAL_PACKAGES=ON by default.")
