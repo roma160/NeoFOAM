@@ -14,12 +14,14 @@ if(WIN32)
                LIBRARY_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/benchmarks/$<0:>
                ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/benchmarks/$<0:>)
 
-  add_custom_command(
-    TARGET bench_fields
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/NeoFOAM.dll
-            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/benchmarks/NeoFOAM.dll
-    COMMENT "Copy NeoFOAM.dll, benchmarks program(s) need it on Windows.")
+  if(BUILD_SHARED_LIBS)
+    add_custom_command(
+      TARGET bench_fields
+      POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/NeoFOAM.dll
+              ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/benchmarks/NeoFOAM.dll
+      COMMENT "Copy NeoFOAM.dll, benchmarks program(s) need it on Windows.")
+  endif()
 else()
   set_property(TARGET bench_fields PROPERTY RUNTIME_OUTPUT_DIRECTORY
                                             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/benchmarks)
