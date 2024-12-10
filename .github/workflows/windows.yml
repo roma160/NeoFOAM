@@ -1,14 +1,8 @@
+# Source: https://github.com/exasim-project/NeoFOAM/blob/3c64f2ca7d0f108e3f4c012c6a3ca8a5341184ed/.github/workflows/windows.yml
+
 name: Build NeoFOAM Windows
 
-on:
-  push:
-    branches:
-      - dev
-      - main
-  pull_request:
-    types: synchronize
-  schedule:
-    - cron: "* 0 * * 0"
+on: workflow_dispatch
 
 concurrency:
   group: ${{ github.workflow }}-${{ (github.head_ref && github.ref) || github.run_id }}
