@@ -48,7 +48,12 @@ enable_sanitizers(
   NEOFOAM_ENABLE_SANITIZE_THREAD NEOFOAM_ENABLE_SANITIZE_MEMORY)
 
 target_link_libraries(NeoFOAM PRIVATE neofoam_warnings neofoam_options)
-target_link_libraries(NeoFOAM PUBLIC NeoFOAM_public_api Kokkos::kokkos cpptrace::cpptrace)
+target_link_libraries(NeoFOAM PUBLIC NeoFOAM_public_api cpptrace::cpptrace)
+target_link_libraries(NeoFOAM PUBLIC Kokkos::kokkos)
+set_target_properties(NeoFOAM PROPERTIES LINK_FLAGS /WHOLEARCHIVE:kokkoscontainers
+                                         /WHOLEARCHIVE:kokkoscore /WHOLEARCHIVE:kokkossimd)
+target_include_directories(
+  NeoFOAM INTERFACE $<TARGET_PROPERTY:Kokkos::kokkos,INTERFACE_INCLUDE_DIRECTORIES>)
 if(NEOFOAM_ENABLE_MPI_SUPPORT)
   target_link_libraries(NeoFOAM PUBLIC MPI::MPI_CXX)
 endif()
