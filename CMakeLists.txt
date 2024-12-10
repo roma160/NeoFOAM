@@ -69,6 +69,7 @@ if(NOT DEFINED CMAKE_EXPORT_COMPILE_COMMANDS)
   set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 endif()
 
+set(BUILD_SHARED_LIBS ON)
 include(cmake/CxxThirdParty.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
 include(cmake/StandardProjectSettings.cmake)
