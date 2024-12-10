@@ -2,12 +2,6 @@
 # SPDX-FileCopyrightText: 2023 NeoFOAM authors
 # add_subdirectory(DSL)
 
-if(BUILD_SHARED_LIBS)
-  set(NeoFOAM_LIB_TYPE "SHARED")
-else()
-  set(NeoFOAM_LIB_TYPE "STATIC")
-endif()
-
 add_library(NeoFOAM ${NeoFOAM_LIB_TYPE})
 
 include(GNUInstallDirs)
