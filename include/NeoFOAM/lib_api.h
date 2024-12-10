@@ -3,12 +3,12 @@
 
 #pragma once
 
-#ifdef _WIN32
-#ifdef USE_API_EXPORT
-#define LIB_API __declspec(dllexport)
+#ifdef NeoFOAM_USE_DLL
+#ifdef NeoFOAM_USE_API_EXPORT
+#define NeoFOAM_API __declspec(dllexport)
 #else
-#define LIB_API __declspec(dllimport)
+#define NeoFOAM_API __declspec(dllimport)
 #endif
 #else
-#define LIB_API
+#define NeoFOAM_API
 #endif

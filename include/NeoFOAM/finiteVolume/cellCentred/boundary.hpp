@@ -19,31 +19,31 @@ namespace NeoFOAM
 
 namespace fvcc = finiteVolume::cellCentred;
 
-template class LIB_API fvcc::VolumeBoundaryFactory<scalar>;
-template class LIB_API fvcc::VolumeBoundaryFactory<Vector>;
+template class NeoFOAM_API fvcc::VolumeBoundaryFactory<scalar>;
+template class NeoFOAM_API fvcc::VolumeBoundaryFactory<Vector>;
 
-template class LIB_API fvcc::volumeBoundary::FixedValue<scalar>;
-template class LIB_API fvcc::volumeBoundary::FixedValue<Vector>;
+template class NeoFOAM_API fvcc::volumeBoundary::FixedValue<scalar>;
+template class NeoFOAM_API fvcc::volumeBoundary::FixedValue<Vector>;
 
-template class LIB_API fvcc::volumeBoundary::FixedGradient<scalar>;
-template class LIB_API fvcc::volumeBoundary::FixedGradient<Vector>;
+template class NeoFOAM_API fvcc::volumeBoundary::FixedGradient<scalar>;
+template class NeoFOAM_API fvcc::volumeBoundary::FixedGradient<Vector>;
 
-template class LIB_API fvcc::volumeBoundary::Calculated<scalar>;
-template class LIB_API fvcc::volumeBoundary::Calculated<Vector>;
+template class NeoFOAM_API fvcc::volumeBoundary::Calculated<scalar>;
+template class NeoFOAM_API fvcc::volumeBoundary::Calculated<Vector>;
 
-template class LIB_API fvcc::volumeBoundary::Empty<scalar>;
-template class LIB_API fvcc::volumeBoundary::Empty<Vector>;
+template class NeoFOAM_API fvcc::volumeBoundary::Empty<scalar>;
+template class NeoFOAM_API fvcc::volumeBoundary::Empty<Vector>;
 
-template class LIB_API fvcc::SurfaceBoundaryFactory<scalar>;
-template class LIB_API fvcc::SurfaceBoundaryFactory<Vector>;
+template class NeoFOAM_API fvcc::SurfaceBoundaryFactory<scalar>;
+template class NeoFOAM_API fvcc::SurfaceBoundaryFactory<Vector>;
 
-template class LIB_API fvcc::surfaceBoundary::FixedValue<scalar>;
-template class LIB_API fvcc::surfaceBoundary::FixedValue<Vector>;
+template class NeoFOAM_API fvcc::surfaceBoundary::FixedValue<scalar>;
+template class NeoFOAM_API fvcc::surfaceBoundary::FixedValue<Vector>;
 
-template class LIB_API fvcc::surfaceBoundary::Calculated<scalar>;
-template class LIB_API fvcc::surfaceBoundary::Calculated<Vector>;
+template class NeoFOAM_API fvcc::surfaceBoundary::Calculated<scalar>;
+template class NeoFOAM_API fvcc::surfaceBoundary::Calculated<Vector>;
 
-template class LIB_API fvcc::surfaceBoundary::Empty<scalar>;
-template class LIB_API fvcc::surfaceBoundary::Empty<Vector>;
+template class NeoFOAM_API fvcc::surfaceBoundary::Empty<scalar>;
+template class NeoFOAM_API fvcc::surfaceBoundary::Empty<Vector>;
 
 }
