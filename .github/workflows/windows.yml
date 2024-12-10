@@ -39,3 +39,19 @@ jobs:
       run: |
         cmake --build --preset develop --target test
       shell: cmd
+
+
+    - name: configure_static
+      run: |
+        cmake --preset develop -DKokkos_DIR="D:/dev/Kokkos/lib/cmake/Kokkos" -DNEOFOAM_DEVEL_TOOLS=OFF -DNEOFOAM_ENABLE_MPI_SUPPORT=OFF -DBUILD_SHARED_LIBS=OFF
+      shell: cmd
+
+    - name: build_static
+      run: |
+        cmake --build --preset develop
+      shell: cmd
+
+    - name: test_static
+      run: |
+        cmake --build --preset develop --target test
+      shell: cmd
