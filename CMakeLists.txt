@@ -58,15 +58,32 @@ option(NEOFOAM_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
 mark_as_advanced(NEOFOAM_WARNINGS_AS_ERRORS)
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
+set(BUILD_SHARED_LIBS ON)
 if(BUILD_SHARED_LIBS)
-  set(NeoFOAM_LIB_TYPE
-      "SHARED"
-      PARENT_SCOPE)
+  set(NeoFOAM_LIB_TYPE "SHARED")
 else()
-  set(NeoFOAM_LIB_TYPE
-      "STATIC"
-      PARENT_SCOPE)
+  set(NeoFOAM_LIB_TYPE "STATIC")
 endif()
+set(NeoFOAM_LIB_TYPE
+    ${NeoFOAM_LIB_TYPE}
+    PARENT_SCOPE)
+function(copy_target_dlls TARGET)
+  if(WIN32 AND BUILD_SHARED_LIBS)
+    add_custom_command(
+      TARGET ${TARGET}
+      POST_BUILD
+      COMMAND
+        ${CMAKE_COMMAND} -E copy_if_different $<LIST:JOIN,$<TARGET_RUNTIME_DLLS:${TARGET}>,"\" \"">
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/tests
+      COMMENT "Copy NeoFOAM.dll, test programs need it on Windows.")
+    add_custom_command(
+      TARGET ${TARGET}
+      POST_BUILD
+      COMMAND
+      COMMAND ${CMAKE_COMMAND} -E echo "Hello"
+      COMMENT "Copy NeoFOAM.dll, test programs need it on Windows.")
+  endif()
+endfunction()
 
 if(NOT DEFINED CPM_USE_LOCAL_PACKAGES)
   message(STATUS "Set CPM_USE_LOCAL_PACKAGES=ON by default.")

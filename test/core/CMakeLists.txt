@@ -52,3 +52,5 @@ add_test(
   NAME registerClass
   COMMAND registerClass
   WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/tests)
+
+copy_target_dlls(registerClass)
