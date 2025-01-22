@@ -11,10 +11,7 @@ project(
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 20)
-if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=lld")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fuse-ld=lld")
-endif()
+
 # Add the cmake folder so the find_package command finds custom packages
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
@@ -39,6 +36,7 @@ option(NEOFOAM_DEVEL_TOOLS "Add development tools to the build system" OFF)
 option(NEOFOAM_BUILD_TESTS "Build the unit tests" OFF)
 option(NEOFOAM_BUILD_BENCHMARKS "Build benchmarks" OFF)
 option(NEOFOAM_BUILD_DOC "Build documentation" OFF)
+option(NEOFOAM_WITH_SUNDIALS "Build NeoFOAM with Sundials support [currently required]" ON)
 
 option(NEOFOAM_ENABLE_SANITIZE_ADDRESS "Enable address sanitizer" OFF)
 option(NEOFOAM_ENABLE_SANITIZE_LEAK "Enable leak sanitizer" OFF)
@@ -49,7 +47,6 @@ option(NEOFOAM_ENABLE_CPP_CHECK "Enable cpp check static analyzer" OFF)
 option(NEOFOAM_ENABLE_CLANG_TIDY "Enable clang tidy static analyzer" OFF)
 option(NEOFOAM_ENABLE_PCH "Enable precompiled header" OFF)
 option(NEOFOAM_ENABLE_IWYU "Enable iwyu checks" OFF)
-option(NEOFOAM_ENABLE_CUDA "Enable CUDA" OFF)
 option(NEOFOAM_ENABLE_MPI "Enable MPI" ON)
 option(NEOFOAM_ENABLE_MPI_WITH_THREAD_SUPPORT "Enable MPI with threading support" OFF)
 option(NEOFOAM_ENABLE_WARNINGS "Treat compiler warnings as errors" OFF)
@@ -90,11 +87,6 @@ include(cmake/CompilerWarnings.cmake)
 include(cmake/Sanitizer.cmake)
 include(cmake/StaticAnalyzers.cmake)
 
-if(NEOFOAM_ENABLE_CUDA)
-  find_package(CUDAToolkit REQUIRED)
-  enable_language(CUDA)
-endif()
-
 add_library(neofoam_options INTERFACE)
 add_library(neofoam_warnings INTERFACE)
 if(NEOFOAM_ENABLE_WARNINGS)
@@ -121,6 +113,7 @@ if(NEOFOAM_BUILD_TESTS)
 endif()
 
 if(NEOFOAM_BUILD_BENCHMARKS)
+  enable_testing()
   add_subdirectory(benchmarks)
 endif()
 

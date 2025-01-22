@@ -3,12 +3,11 @@
 
 #pragma once
 
-#include "NeoFOAM/core/primitives/vector.hpp"
 #include "NeoFOAM/core/primitives/scalar.hpp"
-#include "NeoFOAM/core/primitives/label.hpp"
 #include "NeoFOAM/core/executor/executor.hpp"
-#include "NeoFOAM/fields/field.hpp"
+#include "NeoFOAM/mesh/unstructured.hpp"
 #include "NeoFOAM/finiteVolume/cellCentred/stencil/geometryScheme.hpp"
+#include "NeoFOAM/finiteVolume/cellCentred/fields/surfaceField.hpp"
 
 namespace NeoFOAM::finiteVolume::cellCentred
 {

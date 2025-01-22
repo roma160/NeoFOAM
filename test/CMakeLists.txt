@@ -6,7 +6,8 @@ list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/extras)
 # has to be first since it adds the main target
 add_subdirectory(catch2)
 
-# This function creates unit tests. It allows the following keywords:
+# include "NeoFOAM/core/parallelAlgorithms.hpp" This function creates unit tests. It provides the
+# following keywords:
 #
 # * MPI_SIZE: the number of MPI processors to be used, defaults to 1 if not set
 # * COMMAND: the test command (same behavior as for CMake's add_test), defaults to the test name
@@ -25,11 +26,12 @@ function(neofoam_unit_test TEST)
   endif()
 
   add_executable(${TEST} "${TEST}.cpp")
-  if(NEOFOAM_ENABLE_CUDA)
-    set_source_files_properties("${TEST}.cpp" PROPERTIES LANGUAGE CUDA)
-  endif()
   target_link_libraries(${TEST} PRIVATE neofoam_catch_main neofoam_warnings neofoam_options
                                         Kokkos::kokkos NeoFOAM cpptrace::cpptrace)
+
+  if(NEOFOAM_WITH_SUNDIALS)
+    target_link_libraries(${TEST} PRIVATE SUNDIALS::arkode)
+  endif()
   if(WIN32)
     set_target_properties(
       ${TEST}
@@ -64,9 +66,6 @@ function(neofoam_unit_test_mpi TEST)
   endif()
 
   add_executable(${TEST} "${TEST}.cpp")
-  if(NEOFOAM_ENABLE_CUDA)
-    set_source_files_properties("${TEST}.cpp" PROPERTIES LANGUAGE CUDA)
-  endif()
   target_link_libraries(${TEST} PRIVATE neofoam_catch_main_mpi neofoam_warnings neofoam_options
                                         Kokkos::kokkos NeoFOAM cpptrace::cpptrace)
   if(WIN32)
@@ -93,6 +92,9 @@ function(neofoam_unit_test_mpi TEST)
 endfunction()
 
 add_subdirectory(core)
+add_subdirectory(dsl)
 add_subdirectory(fields)
 add_subdirectory(finiteVolume)
+add_subdirectory(linearAlgebra)
 add_subdirectory(mesh)
+add_subdirectory(timeIntegration)

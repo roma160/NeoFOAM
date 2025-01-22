@@ -16,6 +16,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <functional>
+
 #include "error.hpp"
 
 namespace NeoFOAM
@@ -143,7 +144,9 @@ struct RegisterDocumentation
 
     static bool REGISTERED; ///< Static variable used to trigger the registration of the class
                             ///< documentation.
+#ifdef _MSC_VER
     static_assert((bool)&REGISTERED);
+#endif
 };
 
 // Initialize the static variable and register the class
@@ -295,7 +298,9 @@ public:
 
         friend derivedClass;
         [[maybe_unused]] static bool REGISTERED;
+#ifdef _MSC_VER
         static_assert((bool)&REGISTERED);
+#endif
 
         /**
          * @brief Adds the derived class as a sub type.
@@ -309,8 +314,10 @@ public:
          */
         static bool addSubType()
         {
-            CreatorFunc func = [](Args... args) -> std::unique_ptr<Base>
-            { return std::unique_ptr<Base>(new derivedClass(std::forward<Args>(args)...)); };
+            CreatorFunc func = [](Args... args) -> std::unique_ptr<Base> {
+                return static_cast<std::unique_ptr<Base>>(new derivedClass(std::forward<Args>(args
+                )...));
+            };
             RuntimeSelectionFactory::table()[derivedClass::name()] = func;
 
             DerivedClassDocumentation childData;
@@ -331,9 +338,11 @@ public:
             }
         }
 
+#ifdef _MSC_VER
     private:
 
         Register() { (void)REGISTERED; }
+#endif
     };
 
     virtual ~RuntimeSelectionFactory() = default;

@@ -23,6 +23,7 @@ author = 'NeoFOAM authors'
 
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinxcontrib.mermaid',
     'sphinx.ext.intersphinx',
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.todo',
@@ -59,6 +60,9 @@ html_theme_options = {
     'titles_only': False
 }
 html_static_path = ['_static']
+html_css_files = [
+    'custom.css',
+]
 
 breathe_projects = {
     "NeoFOAM": "_build/xml/"

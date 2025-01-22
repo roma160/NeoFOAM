@@ -7,8 +7,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_all.hpp>
 
-#include "NeoFOAM/finiteVolume/cellCentred/fields/surfaceField.hpp"
-#include "NeoFOAM/finiteVolume/cellCentred/boundary/surfaceBoundaryFactory.hpp"
+#include "NeoFOAM/NeoFOAM.hpp"
 
 #include "NeoFOAM/finiteVolume/cellCentred/boundary.hpp"
 
@@ -25,7 +24,7 @@ TEST_CASE("surfaceField")
         NeoFOAM::Executor(NeoFOAM::GPUExecutor {})
     );
 
-    std::string execName = std::visit([](auto e) { return e.print(); }, exec);
+    std::string execName = std::visit([](auto e) { return e.name(); }, exec);
 
     SECTION("can instantiate SurfaceField with fixedValues on: " + execName)
     {
@@ -39,7 +38,7 @@ TEST_CASE("surfaceField")
             bcs.push_back(fvcc::SurfaceBoundary<NeoFOAM::scalar>(mesh, dict, patchi));
         }
 
-        fvcc::SurfaceField<NeoFOAM::scalar> sf(exec, mesh, bcs);
+        fvcc::SurfaceField<NeoFOAM::scalar> sf(exec, "sf", mesh, bcs);
         // the internal field is 4 because the mesh has 4 boundaryFaces
         NeoFOAM::fill(sf.internalField(), 1.0);
 

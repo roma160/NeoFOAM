@@ -3,11 +3,12 @@
 
 #pragma once
 
-#include "Kokkos_Core.hpp"
+#include <Kokkos_Core.hpp>
 
-#include "NeoFOAM/core.hpp"
-#include "NeoFOAM/finiteVolume/cellCentred/boundary/volumeBoundaryFactory.hpp"
-#include "NeoFOAM/mesh/unstructured.hpp"
+#include "NeoFOAM/core/runtimeSelectionFactory.hpp"                            // Register
+#include "NeoFOAM/core/dictionary.hpp"                                         // Dictionary
+#include "NeoFOAM/finiteVolume/cellCentred/boundary/volumeBoundaryFactory.hpp" // VolumeBoundaryFactory
+#include "NeoFOAM/mesh/unstructured.hpp"                                       // UnstructuredMesh
 
 namespace NeoFOAM::finiteVolume::cellCentred::volumeBoundary
 {

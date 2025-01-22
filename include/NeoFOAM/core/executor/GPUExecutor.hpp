@@ -3,7 +3,6 @@
 #pragma once
 
 #include <Kokkos_Core.hpp>
-#include <iostream>
 
 namespace NeoFOAM
 {
@@ -56,8 +55,6 @@ public:
     {
         return Kokkos::kokkos_realloc<exec>(ptr, newSize);
     }
-
-    std::string print() const { return std::string(exec::name()); }
 
     void free(void* ptr) const noexcept { Kokkos::kokkos_free<exec>(ptr); }
 

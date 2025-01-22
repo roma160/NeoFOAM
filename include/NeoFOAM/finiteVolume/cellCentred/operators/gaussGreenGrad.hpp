@@ -3,11 +3,6 @@
 
 #pragma once
 
-#include <functional>
-
-#include "Kokkos_Core.hpp"
-
-#include "NeoFOAM/fields/field.hpp"
 #include "NeoFOAM/core/executor/executor.hpp"
 #include "NeoFOAM/mesh/unstructured.hpp"
 #include "NeoFOAM/finiteVolume/cellCentred/interpolation/surfaceInterpolation.hpp"
@@ -25,8 +20,11 @@ public:
 
     void grad(const VolumeField<scalar>& phi, VolumeField<Vector>& gradPhi);
 
+    VolumeField<Vector> grad(const VolumeField<scalar>& phi);
+
 private:
 
+    const UnstructuredMesh& mesh_;
     SurfaceInterpolation surfaceInterpolation_;
 };
 

@@ -1,5 +1,14 @@
-# Version 0.1.0 (unreleased)
+# Version 0.2.0 (unreleased)
+## Features
+- add segmentedField to represent vector of vectors [#202](https://github.com/exasim-project/NeoFOAM/pull/202)
+- Adds a minimal implementation linear algebra functionality [#219](https://github.com/exasim-project/NeoFOAM/pull/219)
+## Fixes
+# Version 0.1.0
 - improve build with MSVC and Clang on Windows [#163](https://github.com/exasim-project/NeoFOAM/pull/163)
+- Add document based database [#155](https://github.com/exasim-project/NeoFOAM/pull/155)
+- Implement a DSL interface [#121](https://github.com/exasim-project/NeoFOAM/pull/121)
+- Implement a basic DSL interface [#102](https://github.com/exasim-project/NeoFOAM/pull/102)
+- faster project configuration [#179](https://github.com/exasim-project/NeoFOAM/pull/179)
 - improved error handling and addition of tokenList and Input [#134](https://github.com/exasim-project/NeoFOAM/pull/134)
 - disable span from temporary objects and simplification related to fields [#139](https://github.com/exasim-project/NeoFOAM/pull/139)
 - added launch json to debug unit test in vscode [#135](https://github.com/exasim-project/NeoFOAM/pull/135)

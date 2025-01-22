@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2024 NeoFOAM authors
 
+#ifdef __GNUC__
+#include <cxxabi.h> // for __cxa_demangle
+#endif
+#include <stdlib.h> // for free
+
 #include "NeoFOAM/core/demangle.hpp"
 
 

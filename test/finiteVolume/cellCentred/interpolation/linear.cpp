@@ -7,11 +7,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_all.hpp>
 
-#include "NeoFOAM/core/dictionary.hpp"
-#include "NeoFOAM/mesh/unstructured/unstructuredMesh.hpp"
-#include "NeoFOAM/finiteVolume/cellCentred/interpolation/linear.hpp"
-
-#include "NeoFOAM/finiteVolume/cellCentred/boundary.hpp"
+#include "NeoFOAM/NeoFOAM.hpp"
 
 using NeoFOAM::finiteVolume::cellCentred::SurfaceInterpolation;
 using NeoFOAM::finiteVolume::cellCentred::VolumeField;
@@ -25,10 +21,11 @@ TEST_CASE("linear")
         NeoFOAM::Executor(NeoFOAM::GPUExecutor {})
     );
 
-    std::string execName = std::visit([](auto e) { return e.print(); }, exec);
+    std::string execName = std::visit([](auto e) { return e.name(); }, exec);
     auto mesh = NeoFOAM::createSingleCellMesh(exec);
-    auto linear = SurfaceInterpolation(exec, mesh, "linear");
+    NeoFOAM::Input input = NeoFOAM::TokenList({std::string("linear")});
+    auto linear = SurfaceInterpolation(exec, mesh, input);
 
-    auto in = VolumeField<NeoFOAM::scalar>(exec, mesh, {});
-    auto out = SurfaceField<NeoFOAM::scalar>(exec, mesh, {});
+    auto in = VolumeField<NeoFOAM::scalar>(exec, "in", mesh, {});
+    auto out = SurfaceField<NeoFOAM::scalar>(exec, "out", mesh, {});
 }

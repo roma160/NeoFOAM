@@ -1,7 +1,7 @@
 Installation
 ============
 
-You can install NeoFOAM by following these steps:
+You can build NeoFOAM by following these steps:
 
 Clone the NeoFOAM repository:
 
@@ -32,26 +32,14 @@ The following can be chained with -D<DesiredBuildFlags>=<Value> to the CMake com
 +===========================+===================================+=========+
 | CMAKE_BUILD_TYPE          | Build in debug or release mode    | Debug   |
 +---------------------------+-----------------------------------+---------+
-| NEOFOAM_BUILD_APPS        | Build NeoFOAM with Applications   | ON      |
-+---------------------------+-----------------------------------+---------+
-| NEOFOAM_BUILD_BENCHMARKS  | Build NeoFOAM with benchmarks     | OFF     |
-+---------------------------+-----------------------------------+---------+
 | NEOFOAM_BUILD_DOC         | Build NeoFOAM with documentation  | ON      |
 +---------------------------+-----------------------------------+---------+
 | NEOFOAM_BUILD_TESTS       | Build NeoFOAM with tests          | OFF     |
 +---------------------------+-----------------------------------+---------+
-| Kokkos_ENABLE_SERIAL      | Enable Serial backend for Kokkos  | ON      |
-+---------------------------+-----------------------------------+---------+
-| Kokkos_ENABLE_OPENMP      | Enable OpenMP backend for Kokkos  | ON      |
-+---------------------------+-----------------------------------+---------+
-| Kokkos_ENABLE_HIP         | Enable HIP backend for Kokkos     | OFF     |
-+---------------------------+-----------------------------------+---------+
-| Kokkos_ENABLE_SYCL        | Enable SYCL backend for Kokkos    | OFF     |
-+---------------------------+-----------------------------------+---------+
-| Kokkos_ENABLE_CUDA        | Enable CUDA backend for Kokkos    | OFF     |
-+---------------------------+-----------------------------------+---------+
 
+To browse the full list of build options it is recommended to use a build tool like ``ccmake``.
 By opening the the project with cmake-gui you can easily set these flags and configure the build.
+NeoFOAM specific build flags are prefixed by ``NEOFOAM_``.
 
 .. note::
 
@@ -82,6 +70,7 @@ Prerequisites
 The following tools are used in the development of this project:
 
 required tools for documentation:
+
 .. code-block:: bash
 
     sudo apt install doxygen
@@ -101,48 +90,6 @@ required tools for compilation (ubuntu latest 24.04):
     python3 \
     python3-dev \
     build-essential
-    # installation of clang is optional
-    sudo apt remove clang-14
-    sudo rm /usr/bin/clang
-    sudo rm /usr/bin/clang++
-    sudo ln -s /usr/bin/clang-16 /usr/bin/clang
-    sudo ln -s /usr/bin/clang++-16 /usr/bin/clang++
-
-Windows
-"""""""
-
-To compile NeoFOAM on windows, mysys2 is required the installation is described in vscode user guide_
-
-.. _guide: https://code.visualstudio.com/docs/cpp/config-mingw
-
-
-Following package are required with pacman
-
-.. code-block:: bash
-
-   #pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain
-   pacman -S mingw-w64-x86_64-clang
-   pacman -S mingw-w64-x86_64-cmake
-   pacman -S mingw-w64-x86_64-ninja
-   pacman -S mingw-w64-x86_64-msmpi
-
-   pacman -S mingw-w64-x86_64-clang mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-msmpi mingw-w64-x86_64-python mingw-w64-x86_64-lld
-
-
-It also requires the addition of following User Path variables (see vscode guide), assuming the default installation path
-
-.. code-block:: bash
-
-   C:\msys64\mingw64\bin
-
-in vscode make sure clang (the current version of gcc installed with pacman is only 14.0 (7.9.24)) is selected by adding to set .vscode/settings.json
-
-  "cmake.environment": {
-    "CC": "clang",
-    "CXX": "clang++"
-  }
-
-
 
 
 Workflow with vscode
