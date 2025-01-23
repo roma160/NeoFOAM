@@ -18,93 +18,10 @@
 #include <functional>
 
 #include "error.hpp"
+#include "classDatabase.h"
 
 namespace NeoFOAM
 {
-
-/**
- * @class BaseClassData
- * @brief Represents the data for a base class.
- *
- * This class holds the information related to a base class, including documentation,
- * schema, and entries.
- */
-class BaseClassData
-{
-public:
-
-    std::function<std::string(const std::string&)>
-        doc; /**< Function to retrieve the documentation for a specific entry. */
-    std::function<std::string(const std::string&)>
-        schema; /**< Function to retrieve the schema for a specific entry. */
-    std::function<std::vector<std::string>()>
-        entries; /**< Function to retrieve the list of entries. */
-};
-
-/**
- * @class BaseClassDocumentation
- * @brief Provides a mechanism for registering and retrieving documentation for base and derived
- * classes.
- *
- * The BaseClassDocumentation class allows users to register documentation for base classes and
- * retrieve documentation for derived classes based on the registered information. It also provides
- * methods to retrieve the schema and entries associated with a base class.
- */
-class BaseClassDocumentation
-{
-public:
-
-    using LookupTable = std::unordered_map<std::string, BaseClassData>;
-
-    static void registerClass(std::string name, BaseClassData data)
-    {
-        // if not already registered
-        docTable()[name] = data;
-    }
-
-    /**
-     * Returns the documentation for a derived class based on the base class name.
-     *
-     * @param baseClassName The name of the base class.
-     * @param derivedClassName The name of the derived class.
-     * @return The documentation for the derived class.
-     */
-    static std::string doc(const std::string& baseClassName, const std::string& derivedClassName)
-    {
-        return docTable().at(baseClassName).doc(derivedClassName);
-    }
-
-    /**
-     * Returns the schema of the derived class based on the base class name and derived class name.
-     *
-     * @param baseClassName The name of the base class.
-     * @param derivedClassName The name of the derived class.
-     * @return The schema of the derived class.
-     */
-    static std::string schema(const std::string& baseClassName, const std::string& derivedClassName)
-    {
-        // get the schema of the derived class
-        return docTable().at(baseClassName).schema(derivedClassName);
-    }
-
-    /**
-     * Returns a vector of strings representing the entries for a given base class name.
-     *
-     * @param baseClassName The name of the base class.
-     * @return A vector of strings representing the entries.
-     */
-    static std::vector<std::string> entries(const std::string& baseClassName)
-    {
-        return docTable().at(baseClassName).entries();
-    }
-
-    static LookupTable& docTable()
-    {
-        static LookupTable tbl;
-        return tbl;
-    }
-};
-
 
 /**
  * @brief Template struct for registering documentation of a base class.
@@ -137,8 +54,9 @@ struct RegisterDocumentation
      */
     static bool init()
     {
-        BaseClassData data = {baseClass::doc, baseClass::schema, baseClass::entries};
-        BaseClassDocumentation::registerClass(baseClass::name(), data);
+        BaseClassDocumentation::registerClass(
+            baseClass::name(), baseClass::doc, baseClass::schema, baseClass::entries
+        );
         return true;
     }
 
@@ -153,18 +71,6 @@ struct RegisterDocumentation
 template<class baseClass>
 bool RegisterDocumentation<baseClass>::REGISTERED = RegisterDocumentation<baseClass>::init();
 
-/**
- * @brief Class representing the documentation for a derived class.
- *
- * This class stores the documentation and schema information for a derived class.
- */
-class DerivedClassDocumentation
-{
-public:
-
-    std::function<std::string()> doc;
-    std::function<std::string()> schema;
-};
 
 // Parameters helper type
 template<typename... Args>
@@ -359,7 +265,12 @@ public:
      */
     static LookupTable& table()
     {
-        static LookupTable tbl;
+        static LookupTable& tbl = []() -> LookupTable&
+        {
+            auto& derivedClassesConstructors = data().derivedClassesConstructors;
+            derivedClassesConstructors = LookupTable();
+            return std::any_cast<LookupTable&>(derivedClassesConstructors);
+        }();
         return tbl;
     }
 
@@ -375,6 +286,12 @@ public:
     {
         static ClassDocTable tbl;
         return tbl;
+    }
+
+    static BaseClassData& data()
+    {
+        static BaseClassData& data = BaseClassDocumentation::docTable().at(Base::name());
+        return data;
     }
 
 private:
