@@ -54,10 +54,13 @@ mark_as_advanced(NEOFOAM_ENABLE_WARNINGS)
 option(NEOFOAM_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
 mark_as_advanced(NEOFOAM_WARNINGS_AS_ERRORS)
 
-if(WIN32)
+# Kokkos fix
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
+set(BUILD_SHARED_LIBS ON)
+if(BUILD_SHARED_LIBS)
   set(NeoFOAM_LIB_TYPE "SHARED")
 else()
-  set(NeoFOAM_LIB_TYPE "SHARED")
+  set(NeoFOAM_LIB_TYPE "STATIC")
 endif()
 set(NeoFOAM_LIB_TYPE
     ${NeoFOAM_LIB_TYPE}
