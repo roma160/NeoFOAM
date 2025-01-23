@@ -7,6 +7,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_adapters.hpp>
 
+#include "NeoFOAM/core/dictionary.hpp"
 #include "NeoFOAM/core/runtimeSelectionFactory.hpp"
 
 class BaseClass : public NeoFOAM::RuntimeSelectionFactory<BaseClass, NeoFOAM::Parameters<>>
@@ -71,6 +72,9 @@ template class DerivedClass2<int>;
 
 TEST_CASE("RunTimeSelectionFactory")
 {
+    NeoFOAM::Dictionary dict;
+    dict.insert("Hello", "world");
+
     std::cout << "Table size: " << NeoFOAM::BaseClassDocumentation::docTable().size() << std::endl;
 
     SECTION("classes are registered")

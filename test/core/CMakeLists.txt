@@ -16,7 +16,7 @@ neofoam_unit_test(parallelAlgorithms)
 
 add_executable(runTimeSelectionFactory "runTimeSelectionFactory.cpp")
 target_link_libraries(runTimeSelectionFactory PRIVATE Catch2::Catch2WithMain cpptrace::cpptrace
-                                                      NeoFOAM_public_api)
+                                                      NeoFOAM)
 if(WIN32)
   set_target_properties(
     runTimeSelectionFactory
@@ -33,3 +33,5 @@ add_test(
   NAME runTimeSelectionFactory
   COMMAND runTimeSelectionFactory
   WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/tests)
+
+copy_target_dlls(runTimeSelectionFactory)

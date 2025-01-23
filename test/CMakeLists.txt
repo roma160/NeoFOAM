@@ -47,6 +47,8 @@ function(neofoam_unit_test TEST)
     COMMAND ${neofoam_COMMAND}
     WORKING_DIRECTORY ${neofoam_WORKING_DIRECTORY})
 
+  copy_target_dlls(${TEST})
+
 endfunction()
 
 function(neofoam_unit_test_mpi TEST)
@@ -89,6 +91,8 @@ function(neofoam_unit_test_mpi TEST)
                     "but only <${numberOfProcessors}> are available. Disabling test " "<${TEST}>")
     set_tests_properties(${TEST} PROPERTIES DISABLED TRUE)
   endif()
+
+  copy_target_dlls(${TEST})
 endfunction()
 
 add_subdirectory(core)
