@@ -55,7 +55,7 @@ struct RegisterDocumentation
     static bool init()
     {
         BaseClassDocumentation::registerClass(
-            baseClass::name(), baseClass::doc, baseClass::schema, baseClass::entries
+            typeid(baseClass).name(), baseClass::doc, baseClass::schema, baseClass::entries
         );
         return true;
     }
@@ -178,7 +178,7 @@ public:
     static void print(std::ostream& os)
     {
         const auto& tbl = table();
-        os << Base::name() << " " << tbl.size() << std::endl;
+        os << typeid(Base).name() << " " << tbl.size() << std::endl;
         for (const auto& it : tbl)
         {
             os << " - " << it.first << std::endl;
@@ -224,6 +224,7 @@ public:
                 return static_cast<std::unique_ptr<Base>>(new derivedClass(std::forward<Args>(args
                 )...));
             };
+
             RuntimeSelectionFactory::table()[derivedClass::name()] = func;
 
             DerivedClassDocumentation childData;
@@ -268,7 +269,7 @@ public:
         static LookupTable& tbl = []() -> LookupTable&
         {
             auto& derivedClassesConstructors = data().derivedClassesConstructors;
-            derivedClassesConstructors = LookupTable();
+            if (!derivedClassesConstructors.has_value()) derivedClassesConstructors = LookupTable();
             return std::any_cast<LookupTable&>(derivedClassesConstructors);
         }();
         return tbl;
@@ -290,7 +291,7 @@ public:
 
     static BaseClassData& data()
     {
-        static BaseClassData& data = BaseClassDocumentation::docTable().at(Base::name());
+        static BaseClassData& data = BaseClassDocumentation::docTable()[typeid(Base).name()];
         return data;
     }
 
